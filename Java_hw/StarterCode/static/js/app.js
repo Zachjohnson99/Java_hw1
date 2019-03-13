@@ -1,31 +1,25 @@
 // from data.js
 var tableData = data;
 
-// Get a reference to the table body
 var tbody = d3.select("#tbody");
 
-// Getting a reference to the filter table button 
 var filterBtn = d3.select("#filter-btn");
 
-// Getting a reference to the input element on the page with the id property set to 'input-field'
 var inputField = d3.select("#datetime");
 
 var submit = d3.select("#filter-btn"); 
 
-// Select the input element and get the raw HTML node.
+
 var inputDate = d3.select("#datetime");
 
 // function
-function loadTableData(dataRows) {
-  console.log('In Load Table Data');
-  document.getElementById('table-content').innerHTML="";
-  alert('CLEARING TABLE');
-  tbody.html("");
+function loadTableData(filterdata) {
+  
   d3.select("tbody")
   
     .selectAll("tr")
   
-    .data(dataRows)
+    .data(filterdata)
   
     .enter()
   
@@ -38,58 +32,23 @@ function loadTableData(dataRows) {
               <td>${d.shape}</td> <td>${d.durationMinutes}</td> <td>${d.comments}</td>     `;
   
     });
-  
-   
-  }
-
-loadTableData(tableData);
-
-// 
-//Clear all previuos data from UFO table
-function buildTable(tableData) {
-  tbody.html("");
-
-// // Iterate through each UFO Sighting event, through all elements of data dictionary,
-// // and build HTML UFO Sightings table
-  tableData.forEach((rec) => {
-
-  var row = tbody.append("tr");
-// // Populate each row of UFO table
-  Object.entries(rec).forEach(([key, value]) => {
-  // populate each column for current row
-  var cell = row.append("td");      
-  cell.text(value);
-});
-
-})};
-
-
-var submit = d3.select("#filter-btn"); 
-
-// // Select the input element and get the raw HTML node.
-var inputDate = d3.select("#datetime");
-
-
-// User clicks the button to filter data
+  };
 submit.on("click", function() {
 
-  // Prevent the page from refreshing
+    // Prevent the page from refreshing
   d3.event.preventDefault();
-
-  // Get the value property of the input element
+  
+    // Get the value property of the input element
   var inputValue = inputDate.property("value");
-  console.log("checksubmit1")
   console.log(inputValue);
-  console.log("checksubmit2")
-
-  // Create Filtered dataset based on InputValue entered by user
+    
+  
+    // Create Filtered dataset based on InputValue entered by user
   if (inputValue) {
   var filterdata = tableData.filter(onerec => onerec.datetime === inputValue);}
-  console.log('Filtering Data');
   console.log(filterdata);
- 
-  // Build new UFO Table with the filtered subset of UFO Sighting data
-  buildTable(filterdata);
-  tbody.html("");
+   
+    // Build new UFO Table with the filtered subset of UFO Sighting data
+    
   loadTableData(filterdata);
 });
